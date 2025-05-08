@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"; // <--- Asegurate de importar useEffect
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
@@ -19,11 +19,10 @@ import Settings from "./Usuarios/Settings";
 import Listado from "./Listado";
 import RequireAuth from "./Usuarios/RequireAuth";
 
-import usuariosData from "./../data/usuarios.json"; // Asegurate que la ruta sea correcta
+import usuariosData from "./../data/usuarios.json";
 
 const Body = () => {
   useEffect(() => {
-    // Solo cargamos si no existen usuarios en localStorage
     if (!localStorage.getItem("usuarios")) {
       localStorage.setItem("usuarios", JSON.stringify(usuariosData));
     }
@@ -31,6 +30,7 @@ const Body = () => {
 
   return (
     <Router>
+      <main>
       <Header />
       <Container className="my-4">
         <Routes>
@@ -43,7 +43,7 @@ const Body = () => {
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/nosotros" element={<Nosotros />} />
 
-          {/* Rutas protegidas */}
+          {/* Rutas protegidas: requieren login */}
           <Route
             path="/perfil"
             element={
@@ -61,14 +61,6 @@ const Body = () => {
             }
           />
           <Route
-            path="/admin"
-            element={
-              <RequireAuth>
-                <Admin />
-              </RequireAuth>
-            }
-          />
-          <Route
             path="/listado"
             element={
               <RequireAuth>
@@ -76,9 +68,20 @@ const Body = () => {
               </RequireAuth>
             }
           />
+
+          {/* Ruta protegida: solo para admins */}
+          <Route
+            path="/admin"
+            element={
+              <RequireAuth rolRequerido="admin">
+                <Admin />
+              </RequireAuth>
+            }
+          />
         </Routes>
       </Container>
       <Footer />
+      </main>
     </Router>
   );
 };

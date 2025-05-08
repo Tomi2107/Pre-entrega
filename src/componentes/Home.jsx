@@ -28,7 +28,7 @@ const Home = () => {
         {bienvenidaCards.map((item, index) => (
           <Col md={4} key={index} className="mb-4">
             <Card>
-              <Card.Img variant="top" src={item.img} />
+              <Card.Img variant="top" src={"https://picsum.photos/110/?random"} />
               <Card.Body>
                 <Card.Title>{item.titulo}</Card.Title>
                 <Card.Text>{item.texto}</Card.Text>

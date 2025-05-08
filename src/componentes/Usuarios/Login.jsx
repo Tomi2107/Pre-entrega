@@ -14,6 +14,7 @@ const Login = () => {
 
     if (usuario) {
       localStorage.setItem("usuario", JSON.stringify(usuario));
+      window.dispatchEvent(new Event("authChange")); // 🔥 Notificar Header
 
       if (usuario.rol === "admin") {
         navigate("/admin");
@@ -37,6 +38,8 @@ const Login = () => {
   const limpiarMensaje = () => {
     if (mensaje) setMensaje("");
   };
+
+
 
   return (
     <div className="container mt-4">

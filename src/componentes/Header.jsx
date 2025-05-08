@@ -15,25 +15,31 @@ const Header = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("usuario"));
-    setUser(storedUser);
+    const updateUser = () => {
+      const storedUser = JSON.parse(localStorage.getItem("usuario"));
+      setUser(storedUser);
+    };
 
     const updateCarrito = () => {
       const storedCart = JSON.parse(localStorage.getItem("carrito")) || [];
       setCarrito(storedCart.length);
     };
 
+    updateUser();
     updateCarrito();
+
+    window.addEventListener("authChange", updateUser);
     window.addEventListener("carritoActualizado", updateCarrito);
 
     return () => {
+      window.removeEventListener("authChange", updateUser);
       window.removeEventListener("carritoActualizado", updateCarrito);
     };
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("usuario");
-    setUser(null);
+    window.dispatchEvent(new Event("authChange")); // 🔥 Notificar logout
     navigate("/");
   };
 
@@ -74,7 +80,7 @@ const Header = () => {
                 <Nav.Link onClick={handleLogout}>Salir</Nav.Link>
               </>
             ) : (
-              <Nav.Link as={Link} to="/login">Login</Nav.Link>
+              <NavDropdown.Item as={Link} to="/login">Login</NavDropdown.Item>
             )}
           </Nav>
         </Navbar.Collapse>
