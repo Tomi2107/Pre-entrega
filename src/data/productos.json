@@ -1,0 +1,17 @@
+[
+    {
+      "id": 1,
+      "nombre": "Producto A",
+      "descripcion": "Descripción del producto A",
+      "precio": 1500,
+      "imagen": "https://source.unsplash.com/random/400x300?product-a"
+    },
+    {
+      "id": 2,
+      "nombre": "Producto B",
+      "descripcion": "Descripción del producto B",
+      "precio": 2000,
+      "imagen": "https://source.unsplash.com/random/400x300?product-b"
+    }
+  ]
+  

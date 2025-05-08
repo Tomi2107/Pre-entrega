@@ -1,0 +1,48 @@
+[
+    {
+      "id": 1,
+      "nombre": "Admin User",
+      "usuario": "admin123",
+      "email": "admin@example.com",
+      "password": "adminpass",
+      "rol": "admin",
+      "direccion": "Calle Principal 123, Ciudad Central"
+    },
+    {
+      "id": 2,
+      "nombre": "Juan Pérez",
+      "usuario": "juanp",
+      "email": "juan@example.com",
+      "password": "juanpass",
+      "rol": "cliente",
+      "direccion": "Av. Siempre Viva 742, Springfield"
+    },
+    {
+      "id": 3,
+      "nombre": "Lucía Gómez",
+      "usuario": "lucia",
+      "email": "lucia@example.com",
+      "password": "luciapass",
+      "rol": "cliente",
+      "direccion": "Calle Falsa 123, Pueblo Nuevo"
+    },
+    {
+      "id": 4,
+      "nombre": "Carlos Díaz",
+      "usuario": "carlosd",
+      "email": "carlos@example.com",
+      "password": "carlospass",
+      "rol": "cliente",
+      "direccion": "Pasaje Los Robles 321, Villa Norte"
+    },
+    {
+      "id": 5,
+      "nombre": "Ana Torres",
+      "usuario": "ana_t",
+      "email": "ana@example.com",
+      "password": "anapass",
+      "rol": "cliente",
+      "direccion": "Boulevard del Sol 55, Costa Sur"
+    }
+  ]
+  
