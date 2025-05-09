@@ -1,82 +1,147 @@
 // src/componentes/Api.jsx
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Spinner, Alert } from "react-bootstrap";
+import { Container, Row, Col, Spinner, Alert, Button } from "react-bootstrap";
 import axios from "axios";
-import Actividad from "./Actividad"; // Componente para mostrar la actividad
+import Actividad from "./Actividad";
+import Toast from './Toast';
 
 const Api = () => {
   const [activity, setActivity] = useState(null);
   const [joke, setJoke] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loadingActivity, setLoadingActivity] = useState(true);
+  const [loadingJoke, setLoadingJoke] = useState(true);
   const [error, setError] = useState(null);
 
-  // Obtener una nueva actividad desde la API
+  // Abecedario
+  const abecedario = 'Saludos_Profes!!'.split('');
+  const [indice, setIndice] = useState(0);
+  const [mostrarToast, setMostrarToast] = useState(false);
+  const [historial, setHistorial] = useState([]);
+
+  const mostrarSiguienteLetra = () => {
+    if (indice < abecedario.length) {
+      const nuevaLetra = abecedario[indice];
+      setHistorial([...historial, nuevaLetra]);
+      setIndice(indice + 1);
+      setMostrarToast(true);
+      setTimeout(() => setMostrarToast(false), 2000);
+    }
+  };
+
+  const reiniciar = () => {
+    setIndice(0);
+    setHistorial([]);
+  };
+
+  let letraActual;
+  if (indice === 0) {
+    letraActual = 'Haz clic para empezar';
+  } else if (indice <= abecedario.length - 1) {
+    letraActual = abecedario[indice - 1];
+  } else {
+    letraActual = '¡Fin del abecedario!';
+  }
+
+  const haTerminado = indice >= abecedario.length;
+
+  // Fetch actividad
   const fetchActivity = async () => {
     try {
-      setLoading(true);
+      setLoadingActivity(true);
       const response = await axios.get("https://www.boredapi.com/api/activity");
       setActivity(response.data);
-      setLoading(false);
-      setError(null); // Limpiar cualquier error previo
-    } catch (error) {
-      console.error("Error fetching activity:", error);
-      setLoading(false);
+      setError(null);
+    } catch (err) {
+      console.error("Error al obtener actividad:", err);
       setError("Hubo un problema al obtener la actividad.");
+    } finally {
+      setLoadingActivity(false);
     }
   };
 
-  // Obtener un chiste desde la API
+  // Fetch chiste
   const fetchJoke = async () => {
     try {
-      setLoading(true);
+      setLoadingJoke(true);
       const response = await axios.get("https://v2.jokeapi.dev/joke/Any?type=single");
       setJoke(response.data);
-      setLoading(false);
-      setError(null); // Limpiar cualquier error previo
-    } catch (error) {
-      console.error("Error fetching joke:", error);
-      setLoading(false);
+      setError(null);
+    } catch (err) {
+      console.error("Error al obtener chiste:", err);
       setError("Hubo un problema al obtener el chiste.");
+    } finally {
+      setLoadingJoke(false);
     }
   };
 
-  // Llamar a las APIs al cargar el componente
   useEffect(() => {
     fetchActivity();
     fetchJoke();
   }, []);
 
-  // Renderizar la UI
   return (
     <Container className="mt-4">
-      <h2>API de Actividades y Chistes</h2>
-      
-      {/* Mostrar error si ocurrió uno */}
+      <div className="text-center mb-5">
+        <h1>Mostrar el saludo</h1>
+        <div style={{ fontSize: '3rem', margin: '20px' }}>{letraActual}</div>
+
+        {haTerminado ? (
+          <Button variant="danger" size="lg" onClick={reiniciar}>Reiniciar</Button>
+        ) : (
+          <Button variant="primary" size="lg" onClick={mostrarSiguienteLetra}>Siguiente letra</Button>
+        )}
+
+        {mostrarToast && !haTerminado && (
+          <Toast mensaje={`Mostrando: ${abecedario[indice - 1]}`} />
+        )}
+
+        {historial.length > 0 && (
+          <div className="mt-4">
+            <h4>Letras mostradas:</h4>
+            <div style={{ fontSize: '1.5rem' }}>
+              {historial.map((letra) => (
+                <span key={letra} style={{ marginRight: '10px' }}>{letra}</span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <h2 className="mb-3">API de Actividades y Chistes</h2>
+
       {error && <Alert variant="danger">{error}</Alert>}
 
-      {/* Sección de Actividad */}
-      <h1>Actividad Posible</h1>
-      {loading ? (
+      {/* Actividad */}
+      <h3>Actividad sugerida</h3>
+      {loadingActivity && (
         <Spinner animation="border" variant="primary" />
-      ) : (
-        <Row>
-          <Col md={6}>
-            <Actividad actividad={activity} onGenerarOtra={fetchActivity} />
-          </Col>
-        </Row>
       )}
 
-      {/* Sección de Chistes */}
-      <h1>Chistes</h1>
-      {loading ? (
+      {!loadingActivity && activity && (
+        <>
+          <Alert variant="success">
+            ¡Hola! Te sugerimos esta actividad: <strong>{activity.activity}</strong>
+          </Alert>
+          <Row className="mb-4">
+            <Col md={6}>
+              <Actividad actividad={activity} onGenerarOtra={fetchActivity} />
+            </Col>
+          </Row>
+        </>
+      )}
+
+
+      {/* Chiste */}
+      <h3>Chiste del día</h3>
+      {loadingJoke ? (
         <Spinner animation="border" variant="primary" />
       ) : (
-        <Row>
+        <Row className="mb-4">
           <Col md={6}>
             {joke ? (
               <Alert variant="info">{joke.joke}</Alert>
             ) : (
-              <Alert variant="warning">No hay chistes disponibles en este momento.</Alert>
+              <Alert variant="warning">No hay chistes disponibles.</Alert>
             )}
           </Col>
         </Row>
