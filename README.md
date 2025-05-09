@@ -1,3 +1,23 @@
+Web
+https://tomi2107.github.io/Pre-entrega/
+
+Usuarios Se puede registrar y entrar pero para rol=admin tiene que usar
+
+      "email": "admin@example.com",
+      "password": "adminpass",
+
+Otras webs amigas para visitar
+
+Un form todo guarda en dom
+
+https://todo-react25.netlify.app/
+
+Un reproductor con back en java y front en react, base de datos en Fire
+Abria que cambiar la base de datos a otra con plan gratuito para almacenar archivos
+Para que funcione
+
+https://frontmusic.netlify.app/
+
 Crear proyecto react vite con JS, en app.js solo la etiqueta bodi, en componentes, header con el nav items home nosotros Lista contacto Usuarios(Un registro sencillo y redirige a login estas dos pestañas deben estar dentro de itms usuarios). Footer derechos reservados////// adentro de la pagina agrega al nav un items Productos con cards de los productos de la lista, cuando se cliquea Agregar al carrito la imagen de un carrito en el nav muestra que suma un producto y quitar resta. si se cliquea sobre el caritto se va a una pagina de usuario con un resumen de los productos agregados, y un total del precio. Manejado con persistencia en json, usuarios.json productos.json carrito.json otra caracteristica si el usuario esta setteado como Admin agrega un item al nav Adm con un crud para agregar editar y borrar productos ademas se tienen que poder cargar imagenes. Dame una lista ordenada con lo que te pido para ir construyendo paso a paso.
 
 
