@@ -39,7 +39,7 @@ const Api = () => {
   } else if (indice <= abecedario.length - 1) {
     letraActual = abecedario[indice - 1];
   } else {
-    letraActual = '¡Fin del abecedario!';
+    letraActual = '¡Fin del Saludo!';
   }
 
   const haTerminado = indice >= abecedario.length;
